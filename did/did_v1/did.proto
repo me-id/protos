@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+package didme;
+
+// ===========================
+//  ENUMS
+// ===========================
+
+enum KeyType {
+  KEYTYPE_UNSPECIFIED = 0;
+  MULTIKEY = 1;
+  P256KEY2024 = 2;
+  MLDSA87KEY2024 = 3;
+  MLKEM1024KEY2024 = 4;
+}
+
+enum Algorithm {
+  ALG_UNSPECIFIED = 0;
+  ED25519        = 1;   // EdDSA over Curve25519
+  X25519         = 2;   // X25519 key agreement (was missing before)
+  ES256          = 3;   // P-256 / secp256r1
+  SECP256K1      = 4;   // Bitcoin/Ethereum curve
+  ML_DSA_87      = 5;   // Dilithium-level signature
+  ML_KEM_1024    = 6;   // Kyber KEM 1024
+}
+
+enum DomainVerificationType {
+  DVT_UNSPECIFIED = 0;
+  DNS_TXT = 1;
+  HTTPS_WELL_KNOWN = 2;
+}
+
+// ===========================
+//  CORE KEY
+// ===========================
+
+message VMKey {
+  string id = 1;
+  string controller = 2;
+  KeyType type = 3;
+  Algorithm alg = 4;
+  string pk = 5;
+}
+
+// ===========================
+//  SERVICE
+// ===========================
+
+message Service {
+  string id = 1;
+  string type = 2;
+  string version = 3;
+  bytes endpoint = 4;
+}
+
+// ===========================
+//  ATTESTATION
+// ===========================
+
+message Attestation {
+  Algorithm alg = 1;
+  string vm = 2;
+  bytes sig = 3;
+}
+
+// ===========================
+//  PROOF
+// ===========================
+
+message Proof {
+  string id = 1;
+  string type = 2;
+  string cryptosuite = 3;
+  string purpose = 4;
+  string vm = 5;
+  string created = 6;
+  string jws = 7;
+}
+
+// ===========================
+//  DOMAIN VERIFICATION
+// ===========================
+
+message DomainVerification {
+  DomainVerificationType t = 1;
+  string domain = 2;
+  string method = 3;
+  bytes proof = 4;
+  string proof_url = 5;
+  string verified_at = 6;
+}
+
+// ===========================
+//  UPDATE POLICY
+// ===========================
+
+message UpdatePolicy {
+  repeated string allowed = 1;
+}
+
+// ===========================
+//  DID DOCUMENT
+// ===========================
+
+message DIDDocument {
+  // Core identity
+  string id = 1;
+  string controller = 2;
+
+  // @context
+  repeated string ctx = 3;
+
+  // Metadata
+  repeated string also = 4;
+  bool biometric = 5;
+  bool hardware = 6;
+  string device_model = 7; 
+
+  // Core state
+  uint64 seq = 8;
+  string prev = 9;
+  string core = 10;
+  bytes core_cbor = 11;
+  repeated string key_history = 12;
+
+  // Verification relationships
+  repeated VMKey vm = 13;
+  repeated string authn = 14;
+  repeated string assert = 15;
+  repeated string inv = 16;
+  repeated string ka = 17;
+
+  // Services
+  repeated Service svc = 18;
+
+  // Policy & attestations
+  UpdatePolicy policy = 19;
+  repeated Attestation att = 20;
+
+  // Optional P-256 DataIntegrityProof
+  Proof proof = 21;
+
+  // Domain verification objects
+  repeated DomainVerification dv = 22;
+}

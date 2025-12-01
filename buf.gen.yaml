@@ -1,0 +1,31 @@
+version: v1
+managed:
+   enabled: true
+   go_package_prefix:
+    default: github.com/me-id/protos/gen/go
+    except: 
+      - buf.build/googleapis/googleapis
+plugins:
+  # Go
+   - plugin: buf.build/protocolbuffers/go
+     out: gen/go
+     opt: paths=source_relative
+  # TypeScript 
+   - plugin: buf.build/bufbuild/es
+     out: gen/es
+     opt: 
+       - target=ts
+  # JavaScript (runtime)
+   - plugin: buf.build/bufbuild/es
+     out: gen/es
+     opt:
+       - target=js
+  # Swift 
+   - plugin: buf.build/apple/swift
+     opt: Visibility=Public
+     out: gen/swift
+  #Kotlin
+   - plugin: buf.build/protocolbuffers/kotlin
+     out: gen/kotlin
+
+
