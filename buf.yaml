@@ -1,0 +1,13 @@
+version: v1
+name: buf.build/me-id/protos
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - STANDARD
+  ignore:
+    - google/type/datetime.proto
+
+deps:
+  - buf.build/googleapis/googleapis

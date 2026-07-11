@@ -1,0 +1,51 @@
+{
+  "name": "@me-id/protos",
+  "version": "0.1.0",
+  "description": "Protocol buffer definitions for the did:me decentralized identity method.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "gen/es/**/*"
+  ],
+  "exports": {
+    "./did/v1": {
+      "types": "./gen/es/meid/did/v1/did_pb.ts",
+      "import": "./gen/es/meid/did/v1/did_pb.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/me-id/protos.git"
+  },
+  "homepage": "https://github.com/me-id/protos#readme",
+  "bugs": {
+    "url": "https://github.com/me-id/protos/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "did",
+    "did:me",
+    "didme",
+    "decentralized-identity",
+    "digital-identity",
+    "verifiable-credentials",
+    "ssi",
+    "self-sovereign-identity",
+    "protobuf",
+    "protos",
+    "protocol",
+    "cbor",
+    "dag-cbor",
+    "cid",
+    "ipld",
+    "post-quantum",
+    "ml-dsa",
+    "ml-dsa-87",
+    "ml-kem"
+  ],
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.10.1"
+  }
+}
